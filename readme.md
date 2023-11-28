@@ -43,7 +43,7 @@ npm run watch:webpack　
 https://vantan.develop-env.info/www.vantan-game.com/lp/glitch_test/
 
 
-##　memo
-https://twotone.me/web/4177/
-https://note.com/omakazu/n/n32407af964ed
+##　memo 
+https://twotone.me/web/4177/ 
+https://note.com/omakazu/n/n32407af964ed 
 https://himco.jp/2019/11/24/11%EF%BC%9A%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88-objects/
