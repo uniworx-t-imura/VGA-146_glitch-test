@@ -3,7 +3,7 @@ let isLoaded = false;
 let glitch;
 let glitch2;
 let canvasW;
-const windowW = window.innerWidth,
+let windowW = window.innerWidth,
   windowH = window.innerHeight;
 import imgSrc from "../img/fixed_background_img_sample.jpg";
 import imgBgSrc from "../img/bg_contens.jpg";
@@ -14,7 +14,7 @@ const initP5 = function (sketch) {
     if (windowW >= 700) {
       canvasW = 375;
     } else {
-      canvasW = windowW;
+      canvasW = 375;
     }
     sketch.createCanvas(canvasW, windowH);
     sketch.loadImage(imgSrc, function (img) {
@@ -35,15 +35,17 @@ const initP5 = function (sketch) {
     }
   };
   // コンポーネントのレスポンシブ化
-  // sketch.windowResized = () => {
-  //   if (windowW >= 700) {
-  //     canvasW = 375;
-  //   } else {
-  //     canvasW = windowW;
-  //   }
-  //   sketch.resizeCanvas(canvasW, windowH);
-  //   sketch.reset();
-  // };
+  sketch.windowResized = () => {
+    let windowW = window.innerWidth;
+    if (windowW >= 700) {
+      canvasW = 375;
+    } else {
+      canvasW = 375;
+    }
+    console.log(canvasW);
+    sketch.resizeCanvas(canvasW, window.innerHeight);
+    sketch.reset();
+  };
 };
 
 const initP5bg = function (sketch) {
@@ -64,10 +66,9 @@ const initP5bg = function (sketch) {
     }
   };
   // コンポーネントのレスポンシブ化
-  // sketch.windowResized = () => {
-  //   sketch.resizeCanvas(windowW, windowH);
-  //   sketch.reset();
-  // };
+  sketch.windowResized = () => {
+    sketch.resizeCanvas(window.innerWidth, window.innerHeight);
+  };
 };
 
 new p5(initP5, "p5-canvas");
