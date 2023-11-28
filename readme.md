@@ -16,7 +16,19 @@ https://qiita.com/bit0101/items/91818244dc26c767a0fe
 `random()`や`floor()`は一応p5.jsの関数ですが、jsのものとほぼ意味合いは同じです。
 
 
-cssに関しては
+cssに関しては`glitch.css`にもとのLPのリセット用と青い画像を固定するためのcssを記述しています。pc背景用のほうは元のLPの時点で固定になっているので記述していません。`position: fixed`のものしか書いていませんので作業時に適当にあわせてください。 
+canvasのサイズはjs側でそれぞれ`createCanvas()`でサイズを指定して書き出していますので、cssでサイズ変更するには!importantを充てる必要があります。
+
+
+htmlのほうは、glitchのcanvas作成用に`id="p5-canvas"`や`id="p5-bg-canvas"`が必須なだけですのでデザインに合わせて変更ください。 
+
+本サンプルのindex.htmlで読み込んでいるapp.jsでは、グリッチを修正する場合や増やす場合など変更する際はwebpackによってコンパイルする必要があります。 
+なので下記のsetup、start upを行って環境を作成してください。
+
+webpack環境整えるのが難しい場合は、`glitch_effect.html`と`glitch_effect.js`の方を利用してください。 
+`glitch_effect.js`はコンパイルなしのファイルになっていて、画像の読み込み方が違ったりやGlitchクラスが同一ファイル上に書いてあったりしています。こちらは非コンパイルソースなのでhtml側でp5.jsのライブラリjsを読み込む必要があります。
+
+
 
 
 

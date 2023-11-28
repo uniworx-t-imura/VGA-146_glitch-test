@@ -1,3 +1,78 @@
+let isLoaded = false;
+let glitch;
+let glitch2;
+let canvasW;
+const windowW = window.innerWidth,
+  windowH = window.innerHeight;
+let imgSrc = "./img/fixed_background_img_sample.jpg";
+let imgBgSrc = "./img/bg_contens.jpg";
+
+const initP5 = function (sketch) {
+  sketch.setup = function () {
+    if (windowW >= 700) {
+      canvasW = 375;
+    } else {
+      canvasW = windowW;
+    }
+    sketch.createCanvas(canvasW, windowH);
+    sketch.loadImage(imgSrc, function (img) {
+      glitch = new Glitch(img, sketch);
+      isLoaded = true;
+    });
+  };
+  sketch.reset = function () {
+    console.log("sss");
+  };
+  sketch.draw = function () {
+    sketch.clear();
+    sketch.background(5, 15, 18);
+    //isLoadedで判定すると読み込みの関係で止まる可能性があるので
+    //何回でもdrawは判定するようなのでglitchがtrueになってからshowとする
+    if (glitch) {
+      glitch.show();
+    }
+  };
+  // コンポーネントのレスポンシブ化
+  // sketch.windowResized = () => {
+  //   if (windowW >= 700) {
+  //     canvasW = 375;
+  //   } else {
+  //     canvasW = windowW;
+  //   }
+  //   sketch.resizeCanvas(canvasW, windowH);
+  //   sketch.reset();
+  // };
+};
+
+const initP5bg = function (sketch) {
+  sketch.setup = function () {
+    sketch.createCanvas(windowW, windowH);
+    sketch.reset();
+  };
+  sketch.reset = function () {
+    sketch.loadImage(imgBgSrc, function (img) {
+      glitch2 = new Glitch(img, sketch);
+      isLoaded = true;
+    });
+  };
+  sketch.draw = function () {
+    if (glitch2) {
+      sketch.clear();
+      glitch2.show();
+    }
+  };
+  // コンポーネントのレスポンシブ化
+  // sketch.windowResized = () => {
+  //   sketch.resizeCanvas(windowW, windowH);
+  //   sketch.reset();
+  // };
+};
+
+new p5(initP5, "p5-canvas");
+new p5(initP5bg, "p5-bg-canvas");
+
+
+// Glitchクラス　
 class Glitch {
   constructor(img, p) {
     this.p = p;
@@ -46,7 +121,9 @@ class Glitch {
 
       this.scatImgs.push(scatImg);
     }
+ 
   }
+  
 
   replaceData(destImg, srcPixels) {
     for (let y = 0; y < destImg.height; y++) {
@@ -72,7 +149,6 @@ class Glitch {
     destPixels = new Uint8ClampedArray(srcImg.pixels);
     obj.t1 %= srcImg.height;
     obj.t1 += obj.speed;
-    //tempY = floor(noise(obj.t1) * srcImg.height);
     tempY = this.p.floor(obj.t1);
     for (let y = 0; y < srcImg.height; y++) {
       if (tempY === y) {
@@ -194,36 +270,42 @@ class Glitch {
     // restore the original state
     this.replaceData(this.imgOrigin, this.copyData);
 
-    // sometimes pass without effect processing
+    // sometimes pass without effect processing　グリッチが起きるかどうか（全共通）
     let n = this.p.floor(this.p.random(100));
-    if (n > 75 && this.throughFlag) {
+    if (n > 75 && this.throughFlag) {//うごくチャンスがあって0~100で75より大きいとき（≒24%）
       this.throughFlag = false;
       setTimeout(() => {
         this.throughFlag = true;
-      }, this.p.floor(this.p.random(40, 400)));
+      }, this.p.floor(this.p.random(40, 5000)));//40ms~5000msに一度グリッチがうごくチャンス
     }
-    if (!this.throughFlag) {
+    if (!this.throughFlag) {//グリッチがうごかないときは元の画像を表示し再抽選
       this.p.push();
-      this.p.translate(
-        (this.p.width - this.imgOrigin.width) / 2,
-        (this.p.height - this.imgOrigin.height) / 2
-      );
-      this.p.image(this.imgOrigin, 0, 0);
+      const a = this.p.width / this.p.height; // 画面の縦1に対する横の比
+      const b = this.imgOrigin.width / this.imgOrigin.height; // 画像の縦1に対する横の比
+      let w, h;
+      if (a > b) {
+        w = this.p.width;
+        h = this.imgOrigin.height * (this.p.width / this.imgOrigin.width);
+      } else {
+        h = this.p.height;
+        w = this.imgOrigin.width * (this.p.height / this.imgOrigin.height);
+      }
+      this.p.image(this.imgOrigin,(this.p.width - w) / 2, (this.p.height - h) / 2, w, h);
       this.p.pop();
       return;
     }
 
-    // flow line
-    this.flowLineImgs.forEach((v, i, arr) => {
+    // flow line　1pxの白いラインが落ちてくる
+    this.flowLineImgs.forEach((v, i, arr) => {// 0~100で75より大きいとき（≒24%）
       arr[i].pixels = this.flowLine(this.imgOrigin, v);
       if (arr[i].pixels) {
         this.replaceData(this.imgOrigin, arr[i].pixels);
       }
     });
 
-    // shift line
+    // shift line 　ブロック状にカットされた画像のグリッチ
     this.shiftLineImgs.forEach((v, i, arr) => {
-      if (this.p.floor(this.p.random(100)) > 50) {
+      if (this.p.floor(this.p.random(100)) > 50) {// 0~100で50より大きいとき（≒49%）
         arr[i] = this.shiftLine(this.imgOrigin);
         this.replaceData(this.imgOrigin, arr[i]);
       } else {
@@ -233,30 +315,36 @@ class Glitch {
       }
     });
 
-    // shift rgb
+    // shift rgb　カラーチャンネルが乱れる
     this.shiftRGBs.forEach((v, i, arr) => {
-      if (this.p.floor(this.p.random(100)) > 65) {
+      if (this.p.floor(this.p.random(100)) > 65) {// 0~100で65より大きいとき（≒34%）
         arr[i] = this.shiftRGB(this.imgOrigin);
         this.replaceData(this.imgOrigin, arr[i]);
       }
     });
 
     this.p.push();
-    this.p.translate(
-      (this.p.width - this.imgOrigin.width) / 2,
-      (this.p.height - this.imgOrigin.height) / 2
-    );
-    this.p.image(this.imgOrigin, 0, 0);
+    const a = this.p.width / this.p.height; // 画面の縦1に対する横の比
+    const b = this.imgOrigin.width / this.imgOrigin.height; // 画像の縦1に対する横の比
+    let w, h;
+    if (a > b) {
+      w = this.p.width;
+      h = this.imgOrigin.height * (this.p.width / this.imgOrigin.width);
+    } else {
+      h = this.p.height;
+      w = this.imgOrigin.width * (this.p.height / this.imgOrigin.height);
+    }
+    this.p.image(this.imgOrigin,(this.p.width - w) / 2, (this.p.height - h) / 2, w, h);
     this.p.pop();
 
-    // scat image
+    // scat image  画像がスライスされて左右にずれる
     this.scatImgs.forEach((obj) => {
       this.p.push();
       this.p.translate(
         (this.p.width - this.imgOrigin.width) / 2,
         (this.p.height - this.imgOrigin.height) / 2
       );
-      if (this.p.floor(this.p.random(100)) > 80) {
+      if (this.p.floor(this.p.random(100)) > 80) {// 0~100で80より大きいとき（≒19%）
         obj.x = this.p.floor(
           this.p.random(-this.imgOrigin.width * 0.3, this.imgOrigin.width * 0.7)
         );
@@ -272,5 +360,3 @@ class Glitch {
     });
   }
 }
-
-module.exports = Glitch;

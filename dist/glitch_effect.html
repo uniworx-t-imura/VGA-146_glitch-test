@@ -27,7 +27,7 @@
 <link rel="stylesheet" href="css/app.css">
 
 <link rel="stylesheet" href="https://www.vantan-game.com/lp/inc/template/css/style.css">
-<link rel="stylesheet" href="https://www.vantan-game.com/lp/inc/template/css/glitch.css">
+<link rel="stylesheet" href="css/glitch.css">
 </head>
 <body>
   <!--============ ▼ analytics area (non-editable) ▼ =============-->
@@ -38,16 +38,14 @@
     </header>
     <!--============ ▽ contents area (editable) ▽ =============-->
     <main id="vantan-main">
-      <picture class="o-main__bg">
-        <source srcset="img/bg_contens.webp" width="2000" height="1200" type="image/webp" />
-        <img src="img/bg_contens.jpg" width="2000" height="1200" loading="lazy" alt="" />
-      </picture>
+      <div class="o-main__bg">
+        <div id="p5-bg-canvas"></div>
+      </div>
+      <div class="o-main__bg__fixed">
+        <div id="p5-canvas" class="o-mv"></div>
+      </div>
       <article class="o-contents_wrap">
         <section class="sec-main">
-          <!-- <picture class="o-mv">
-            <img src="img/fixed background_img_sample.jpg" width="500" height="612" loading="lazy" alt="" />
-          </picture> -->
-          <div id="p5-canvas" class="o-mv"></div>
           <div class="o-main__textwrap">
             <p class="m-main__intro">高校2年生・中学2年生集合!<br>同じ趣味の仲間がみつかる<span>高校2年生・中学2年生集合!<br>同じ趣味の仲間がみつかる</span></p>
             <p class="m-main__sub">特別サークル<span>特別サークル</span></p>
@@ -313,6 +311,8 @@
 <!--============ △ /contents area (editable) △ =============-->
 <footer id="vantan-footer"></footer>
 <script src="https://www.vantan-game.com/lp/inc/template/js/script.js" defer></script>
-<script src="js/bundle.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.7/p5.min.js"></script>
+<script src="js/glitch_effect.js" defer></script>
+<!-- <script src="js/app.js" defer></script> -->
 </body>
 </html>
