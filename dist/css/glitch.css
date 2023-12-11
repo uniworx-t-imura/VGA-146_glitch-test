@@ -12,13 +12,13 @@
 
   /* canvasの親div固定用css */
   .o-main__bg__fixed {
-    height: 100dvh;
+    height: 635px;
     left: 0;
-    position: fixed;
+    position: absolute;
     right: 0;
     top: 0;
     width: 100vw;
-    max-width: 375px;
+    max-width: 500px;
     margin: auto;
     z-index: -1;
   }

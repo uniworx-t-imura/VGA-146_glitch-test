@@ -11,12 +11,12 @@ import Glitch from "./glitch";
 
 const initP5 = function (sketch) {
   sketch.setup = function () {
-    if (windowW >= 700) {
-      canvasW = 375;
+    if (windowW >= 500) {
+      canvasW = 500;
     } else {
-      canvasW = 375;
+      canvasW = window.innerWidth;
     }
-    sketch.createCanvas(canvasW, windowH);
+    sketch.createCanvas(canvasW, 635);
     sketch.loadImage(imgSrc, function (img) {
       glitch = new Glitch(img, sketch);
       isLoaded = true;
@@ -37,39 +37,40 @@ const initP5 = function (sketch) {
   // コンポーネントのレスポンシブ化
   sketch.windowResized = () => {
     let windowW = window.innerWidth;
-    if (windowW >= 700) {
-      canvasW = 375;
+    if (windowW >= 500) {
+      canvasW = 500;
     } else {
-      canvasW = 375;
+      canvasW = window.innerWidth;
     }
     console.log(canvasW);
-    sketch.resizeCanvas(canvasW, window.innerHeight);
+    sketch.resizeCanvas(canvasW, 635);
     sketch.reset();
   };
 };
 
-const initP5bg = function (sketch) {
-  sketch.setup = function () {
-    sketch.createCanvas(windowW, windowH);
-    sketch.reset();
-  };
-  sketch.reset = function () {
-    sketch.loadImage(imgBgSrc, function (img) {
-      glitch2 = new Glitch(img, sketch);
-      isLoaded = true;
-    });
-  };
-  sketch.draw = function () {
-    if (glitch2) {
-      sketch.clear();
-      glitch2.show();
-    }
-  };
-  // コンポーネントのレスポンシブ化
-  sketch.windowResized = () => {
-    sketch.resizeCanvas(window.innerWidth, window.innerHeight);
-  };
-};
+// 背景のグリッチはなしに
+// const initP5bg = function (sketch) {
+//   sketch.setup = function () {
+//     sketch.createCanvas(windowW, windowH);
+//     sketch.reset();
+//   };
+//   sketch.reset = function () {
+//     sketch.loadImage(imgBgSrc, function (img) {
+//       glitch2 = new Glitch(img, sketch);
+//       isLoaded = true;
+//     });
+//   };
+//   sketch.draw = function () {
+//     if (glitch2) {
+//       sketch.clear();
+//       glitch2.show();
+//     }
+//   };
+//   // コンポーネントのレスポンシブ化
+//   sketch.windowResized = () => {
+//     sketch.resizeCanvas(window.innerWidth, window.innerHeight);
+//   };
+// };
 
 new p5(initP5, "p5-canvas");
-new p5(initP5bg, "p5-bg-canvas");
+// new p5(initP5bg, "p5-bg-canvas");

@@ -201,7 +201,7 @@ class Glitch {
       this.throughFlag = false;
       setTimeout(() => {
         this.throughFlag = true;
-      }, this.p.floor(this.p.random(40, 5000)));//40ms~5000msに一度グリッチがうごくチャンス
+      }, this.p.floor(this.p.random(40, 900)));//40ms~900msに一度グリッチがうごくチャンス
     }
     if (!this.throughFlag) {//グリッチがうごかないときは元の画像を表示し再抽選
       this.p.push();
