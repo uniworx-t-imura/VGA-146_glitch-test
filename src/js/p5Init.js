@@ -5,7 +5,7 @@ let glitch2;
 let canvasW;
 let windowW = window.innerWidth,
   windowH = window.innerHeight;
-import imgSrc from "../img/fixed_background_img_sample.jpg";
+import imgSrc from "../img/bg_fixed_img.jpg";
 import imgBgSrc from "../img/bg_contens.jpg";
 import Glitch from "./glitch";
 
@@ -23,7 +23,6 @@ const initP5 = function (sketch) {
     });
   };
   sketch.reset = function () {
-    console.log("sss");
   };
   sketch.draw = function () {
     sketch.clear();

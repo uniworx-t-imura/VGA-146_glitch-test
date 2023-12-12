@@ -319,7 +319,7 @@ module.exports = Glitch;
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _img_fixed_background_img_sample_jpg__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../img/fixed_background_img_sample.jpg */ "./src/img/fixed_background_img_sample.jpg");
+/* harmony import */ var _img_bg_fixed_img_jpg__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../img/bg_fixed_img.jpg */ "./src/img/bg_fixed_img.jpg");
 /* harmony import */ var _img_bg_contens_jpg__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../img/bg_contens.jpg */ "./src/img/bg_contens.jpg");
 /* harmony import */ var _glitch__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./glitch */ "./src/js/glitch.js");
 /* harmony import */ var _glitch__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_glitch__WEBPACK_IMPORTED_MODULE_2__);
@@ -342,13 +342,12 @@ const initP5 = function (sketch) {
       canvasW = window.innerWidth;
     }
     sketch.createCanvas(canvasW, 635);
-    sketch.loadImage(_img_fixed_background_img_sample_jpg__WEBPACK_IMPORTED_MODULE_0__, function (img) {
+    sketch.loadImage(_img_bg_fixed_img_jpg__WEBPACK_IMPORTED_MODULE_0__, function (img) {
       glitch = new (_glitch__WEBPACK_IMPORTED_MODULE_2___default())(img, sketch);
       isLoaded = true;
     });
   };
   sketch.reset = function () {
-    console.log("sss");
   };
   sketch.draw = function () {
     sketch.clear();
@@ -414,14 +413,14 @@ module.exports = __webpack_require__.p + "./img/bg_contens.jpg";
 
 /***/ }),
 
-/***/ "./src/img/fixed_background_img_sample.jpg":
-/*!*************************************************!*\
-  !*** ./src/img/fixed_background_img_sample.jpg ***!
-  \*************************************************/
+/***/ "./src/img/bg_fixed_img.jpg":
+/*!**********************************!*\
+  !*** ./src/img/bg_fixed_img.jpg ***!
+  \**********************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
-module.exports = __webpack_require__.p + "./img/fixed_background_img_sample.jpg";
+module.exports = __webpack_require__.p + "./img/bg_fixed_img.jpg";
 
 /***/ })
 
